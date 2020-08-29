@@ -1,10 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+
+export class AppComponent implements OnInit {
   title = 'porspch';
+
+  constructor(private http: HttpClient){
+
+  }
+
+  // tslint:disable-next-line: typedef
+  onSubmit(data){
+    alert(JSON.stringify(data));
+    // const postData = {
+    //   username: data.email,
+    //   feedback: data.feedback
+    // };
+    this.http.post<any>('http://localhost:3000/api', data).subscribe(result => {
+      alert(JSON.stringify(result));
+    });
+  }
+
+  ngOnInit(): void{
+
+  }
+
 }

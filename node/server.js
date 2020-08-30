@@ -2,6 +2,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+require('./db');
+const FeedbackModel = require('./feedback_schema');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
@@ -48,11 +50,21 @@ app.post('/api', (req, res) => {
     const username = req.body.username;
     const feedback = req.body.feedback;
 
+    FeedbackModel.create(req.body , (err, doc)=>{
+        if (err) res.json({result: "failed", username: username, feedback: feedback});
+
+        res.json({result: "success", username: username, feedback: feedback});
+    });
+
     // res.end("Welcome to my home path");
-
     // res.end("Test Feedback: " + feedback + "Of User : " + username);
+});
 
-    res.json({result: "success", username: username, feedback: feedback});
+app.get('/api', (req, res) => {
+    FeedbackModel.find((err, doc) => {
+        if (err) { res.json({result: "failed"}) };
+        res.json({result: "success", data: doc});
+    });
 });
 
 app.listen(3000, ()=>{

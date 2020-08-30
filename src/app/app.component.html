@@ -10,3 +10,12 @@
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<br>
+
+<div>
+  <p>All Feedbacks</p>
+  <ol>
+    <li *ngFor="let item of mDataArray">{{item.username}} : <span style="color: peru">{{item.feedback}}</span></li>
+  </ol>
+</div>
